@@ -12,27 +12,18 @@ class TestController extends Controller
     public function index(Request $request){
        ini_set('max_execution_time', -1);
     //    $users = User::with('company')->first();
-    //    dd($users);
 
-    $users = User::all();
-    dd($users);
-    $companies = Company::all();
-    dd($companies);
-    //    dd(Company::with('users')->get());
-       dd(app('currentTenant'));
+    //    dd($users->toArray());
 
- // Example query to verify tenant database switch
-        // $marks = Company::has('users')->with('users')
-        //         ->limit(1)->get();
+        $companies = Company::with('users')->get();
+        dd($companies->toArray());
+        //    dd(Company::with('users')->get());
+        dd(app('currentTenant'));
 
-        $tvetId = $request->query('tvet_id');
-
-        $tenant = DB::table('tenants')->where('id', $tvetId)->first();
-
-        $users = User::all();
         return response()->json([
-            'message' => "Data fetched successfully from {$tenant?->database} database",
-            'users' => $users,
+            'message' => "Data fetched successfully from this database",
+            'current_tenant' => app('currentTenant'),
         ]);
+
     }
 }

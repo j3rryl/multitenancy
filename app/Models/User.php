@@ -13,8 +13,6 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, UsesTenantConnection;
 
-    protected $connection = "tenant";
-
     /**
      * The attributes that are mass assignable.
      *
@@ -49,6 +47,6 @@ class User extends Authenticatable
         ];
     }
     public function company(){
-        $this->belongsTo(Company::class, 'company_id');
+        return $this->belongsTo(Company::class, 'company_id');
     }
 }
